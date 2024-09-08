@@ -19,10 +19,12 @@ class Candidate:
         return ''.join([word[0] for word in self.name.split()]).upper()
 
     @property
+    def id(self):
+        return f'{self.row_num}-{self.name_initials}'
+
+    @property
     def image_path(self):
-        return os.path.join(
-            'data', 'images', f'{self.row_num}-{self.name_initials}.png'
-        )
+        return os.path.join('data', 'images', f'{self.id}.png')
 
     @property
     def image_path_unix(self):
@@ -32,8 +34,12 @@ class Candidate:
     def readme_row(self):
         return (
             f'| <img src="{self.image_path_unix}" width="48" /> '
-            + '| {self.name} |  |'
+            + f'| {self.name} |  |'
         )
+
+    @property
+    def is_major(self):
+        return self.id in ['16-AKD', '21-SP', '22-SF', '32-NR', '37-RW']
 
     RAW_HTML_PATH = os.path.join('data', 'raw.html')
     URL_BASE = 'https://eservices.elections.gov.lk/pages/'
